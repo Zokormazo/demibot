@@ -1,0 +1,5 @@
+[General]
+token = "YOUR_API_TOKE"
+
+[Brain]
+path = "cobe.dbs/"
