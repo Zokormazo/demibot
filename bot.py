@@ -21,7 +21,7 @@ def handle(msg):
 
 token = config.get('General', 'token')
 bot = telepot.Bot(token)
-bot.notifyOnMessage(handle)
+bot.message_loop(handle)
 
 print('Listening')
 
