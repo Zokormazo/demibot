@@ -15,10 +15,13 @@ def handle(msg):
         brain = Brain(config.get('Brain', 'path') + str(chat_id) + ".brain")
         msg['text'] = msg['text'].replace(u'@',u'')
         brain.learn(msg['text'])
+        
+        # Delete possible mentions in the response
+        msg_reply = brain.reply(msg['text']).replace(u'@',u'')
         if 'reply_to_message' in msg and msg['reply_to_message']['from']['username'] == "Braulio_bot":
-            bot.sendMessage(chat_id,brain.reply(msg['text']),reply_to_message_id=msg['message_id'])
+            bot.sendMessage(chat_id,msg_reply,reply_to_message_id=msg['message_id'])
         elif 'braulio' in msg['text'].lower():
-            bot.sendMessage(chat_id,brain.reply(msg['text']).replace("Braulio",msg['from']['first_name']))
+            bot.sendMessage(chat_id,msg_reply.replace("Braulio",msg['from']['first_name']))
 
 token = config.get('General', 'token')
 bot = telepot.Bot(token)
