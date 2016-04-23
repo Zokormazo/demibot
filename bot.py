@@ -13,6 +13,7 @@ def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     if content_type == 'text':
         brain = Brain(config.get('Brain', 'path') + str(chat_id) + ".brain")
+        msg['text'] = msg['text'].replace(u'@',u'')
         brain.learn(msg['text'])
         if 'reply_to_message' in msg and msg['reply_to_message']['from']['username'] == "Braulio_bot":
             bot.sendMessage(chat_id,brain.reply(msg['text']),reply_to_message_id=msg['message_id'])
