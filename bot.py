@@ -3,16 +3,16 @@
 
 import telepot
 import time
-import ConfigParser
+import os
 from cobe.brain import Brain
 
-config = ConfigParser.ConfigParser()
-config.read("bot.cfg")
+token = os.environ.get("DEMIBOT_API_TOKEN", None)
+brain_path = os.environ.get("DEMIBOT_BRAIN_PATH", None)
 
 def handle(msg):
     content_type, chat_type, chat_id = telepot.glance(msg)
     if content_type == 'text':
-        brain = Brain(config.get('Brain', 'path') + str(chat_id) + ".brain")
+        brain = Brain(brain_path + "/" + str(chat_id) + ".brain")
         msg['text'] = msg['text'].replace(u'@',u'')
         brain.learn(msg['text'])
         
@@ -23,7 +23,6 @@ def handle(msg):
         elif 'braulio' in msg['text'].lower():
             bot.sendMessage(chat_id,msg_reply.replace("Braulio",msg['from']['first_name']))
 
-token = config.get('General', 'token')
 bot = telepot.Bot(token)
 bot.message_loop(handle)
 

@@ -1,5 +1,0 @@
-[General]
-token = "YOUR_API_TOKEN"
-
-[Brain]
-path = "cobe.dbs/"
